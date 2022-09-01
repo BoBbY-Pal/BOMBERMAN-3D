@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using Utilities;
 
-namespace Utilities
+namespace Core
 {
-    public class SetupBoard : MonoGenericSingleton<SetupBoard>
+    public class BoardManager : MonoGenericSingleton<BoardManager>
     {
         public int width, height;
 
@@ -16,6 +17,7 @@ namespace Utilities
             SetupCellGrid();
             SetupWalls();
             SetupBoxes();
+            IsCellEmpty();
         }
 
         private void SetupCellGrid()
@@ -72,6 +74,21 @@ namespace Utilities
                     z++;
                 }
                 x++;
+            }
+        }
+        
+        private void IsCellEmpty()
+        {
+            
+            for (int x = 1; x < width; x++)
+            {
+                for (int z = 1; z < height; z++)
+                {
+                    if (cellGrid[x, z] != null)
+                    {
+                        GameLogManager.CustomLog("Found something!");
+                    }
+                }
             }
         }
     }

@@ -1,0 +1,52 @@
+using UnityEngine;
+
+namespace Player
+{
+    public class PlayerController : MonoBehaviour
+    {
+        public float playerMoveSpeed;
+        private Rigidbody _rigidbody;
+        public bool b_canSpawnBomb = true;
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+
+        private void Update()
+        {
+            MovePlayer();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (b_canSpawnBomb)
+                {
+                    BombSpawner.Instance.SpawnBomb(transform.position);
+                    
+                }
+            }
+        }
+
+        
+
+        private void MovePlayer()
+        {
+            float horizontalMovement = Input.GetAxisRaw("Horizontal") * playerMoveSpeed * Time.deltaTime;
+            float verticalMovement = Input.GetAxisRaw("Vertical") * playerMoveSpeed * Time.deltaTime;
+
+            if (horizontalMovement is > 0 or < 0)
+            {
+                _rigidbody.velocity = new Vector3(horizontalMovement, 0, 0);
+            }
+            else if (verticalMovement is > 0 or < 0)
+            {
+                _rigidbody.velocity = new Vector3(0, 0, verticalMovement);
+            }
+            else
+            {
+                _rigidbody.velocity = Vector3.zero;
+            }
+        }
+        
+        
+    }
+}
