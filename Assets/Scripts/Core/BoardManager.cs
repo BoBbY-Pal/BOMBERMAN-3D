@@ -7,17 +7,21 @@ namespace Core
     {
         public int width, height;
 
-        public GameObject cellPrefab1, cellPrefab2, wall;
+        public GameObject cellPrefab1, cellPrefab2, wallPrefab, playerPrefab;
+        
+        [Tooltip("Boxes that will be placed on the cells grid.")]
         public GameObject[] boxes;
-        public GameObject[,] cellGrid;
+        public GameObject[,] cellGrid;  
 
         private void Start()
         {
             cellGrid = new GameObject[width, height];
+            
             SetupCellGrid();
             SetupWalls();
             SetupBoxes();
             IsCellEmpty();
+            SpawnPlayer();
         }
 
         private void SetupCellGrid()
@@ -38,22 +42,22 @@ namespace Core
             // Top Down Walls
             for (int x = 0; x < width; x++) 
             {
-                GameObject downWall = Instantiate(wall, new Vector3(x, 1, -1), wall.transform.rotation);
+                GameObject downWall = Instantiate(wallPrefab, new Vector3(x, 1, -1), wallPrefab.transform.rotation);
                 downWall.transform.SetParent(gameObject.transform);
                 downWall.name = $"BottomWall ({x})";
                 
-                GameObject topWall = Instantiate(wall, new Vector3(x, 1, height), wall.transform.rotation);
+                GameObject topWall = Instantiate(wallPrefab, new Vector3(x, 1, height), wallPrefab.transform.rotation);
                 topWall.transform.SetParent(gameObject.transform);
                 topWall.name = $"TopWall ({x})";
             }
             // Left Right Walls
             for (int z = 0; z < height; z++) 
             {
-                GameObject leftWall = Instantiate(wall, new Vector3(-1, 1, z), Quaternion.identity);
+                GameObject leftWall = Instantiate(wallPrefab, new Vector3(-1, 1, z), Quaternion.identity);
                 leftWall.transform.SetParent(gameObject.transform);
                 leftWall.name = $"LeftWall ({z})";
                 
-                GameObject rightWall = Instantiate(wall, new Vector3(width, 1, z), Quaternion.identity);
+                GameObject rightWall = Instantiate(wallPrefab, new Vector3(width, 1, z), Quaternion.identity);
                 rightWall.transform.SetParent(gameObject.transform);
                 rightWall.name = $" RightWall ({z})";
             }
@@ -90,6 +94,11 @@ namespace Core
                     }
                 }
             }
+        }
+
+        private void SpawnPlayer()
+        {
+            Instantiate(playerPrefab, new Vector3(0, 1, height-1), Quaternion.identity);
         }
     }
 }

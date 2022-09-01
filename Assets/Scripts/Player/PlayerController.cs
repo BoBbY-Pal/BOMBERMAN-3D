@@ -6,7 +6,7 @@ namespace Player
     {
         public float playerMoveSpeed;
         private Rigidbody _rigidbody;
-        public bool b_canSpawnBomb = true;
+        
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -18,11 +18,8 @@ namespace Player
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (b_canSpawnBomb)
-                {
                     BombSpawner.Instance.SpawnBomb(transform.position);
-                    
-                }
+                
             }
         }
 
