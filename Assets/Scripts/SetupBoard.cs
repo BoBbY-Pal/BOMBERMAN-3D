@@ -33,26 +33,27 @@ namespace Utilities
         
         private void SetupWalls()
         {
+            // Top Down Walls
             for (int x = 0; x < width; x++) 
             {
                 GameObject downWall = Instantiate(wall, new Vector3(x, 0, -1), wall.transform.rotation);
                 downWall.transform.SetParent(gameObject.transform);
-                downWall.name = $"BottomWall ({x},{-1})";
+                downWall.name = $"BottomWall ({x})";
                 
-                GameObject obj = Instantiate(wall, new Vector3(x, 0, height+1), wall.transform.rotation);
-                obj.transform.SetParent(gameObject.transform);
-                obj.name = $"TopWall ({x},{height+1})";
+                GameObject topWall = Instantiate(wall, new Vector3(x, 0, height), wall.transform.rotation);
+                topWall.transform.SetParent(gameObject.transform);
+                topWall.name = $"TopWall ({x})";
             }
-            
+            // Left Right Walls
             for (int z = 0; z < height; z++) 
             {
                 GameObject leftWall = Instantiate(wall, new Vector3(-1, 0, z), wall.transform.rotation);
                 leftWall.transform.SetParent(gameObject.transform);
-                leftWall.name = $"LeftWall ({-1},{z})";
+                leftWall.name = $"LeftWall ({z})";
                 
-                GameObject obj = Instantiate(wall, new Vector3(width+1, 0, z), wall.transform.rotation);
-                obj.transform.SetParent(gameObject.transform);
-                obj.name = $" RightWall ({width+1},{z})";
+                GameObject rightWall = Instantiate(wall, new Vector3(width, 0, z), wall.transform.rotation);
+                rightWall.transform.SetParent(gameObject.transform);
+                rightWall.name = $" RightWall ({z})";
             }
         }
     }
