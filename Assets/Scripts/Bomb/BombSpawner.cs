@@ -7,6 +7,7 @@ public class BombSpawner : MonoGenericSingleton<BombSpawner>
     [SerializeField] private GameObject bombPrefab;
     private GameObject _bombObject;
     private bool b_canSpawnBomb = true;
+    [SerializeField] private float explosionTime;
     [SerializeField] private ParticleSystem explosionParticle;
     
     private MeshRenderer _bombMeshRenderer;
@@ -24,6 +25,7 @@ public class BombSpawner : MonoGenericSingleton<BombSpawner>
     {
         if (b_canSpawnBomb)
         {
+            b_canSpawnBomb = false;
             _bombObject.transform.position = bombSpawnPosition;
             _bombMeshRenderer.enabled = true;
             _bombSphereCollider.enabled = true;
@@ -34,8 +36,9 @@ public class BombSpawner : MonoGenericSingleton<BombSpawner>
 
     private IEnumerator Explode()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(explosionTime);
         _bombMeshRenderer.enabled = false;
         _bombSphereCollider.enabled = false;
+        b_canSpawnBomb = true;
     }
 }
