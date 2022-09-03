@@ -1,27 +1,34 @@
-﻿using UnityEngine;
+﻿using Enemy;
+using UnityEngine;
 using Utilities;
+using Wall;
 
 namespace Core
 {
     public class BoardManager : MonoGenericSingleton<BoardManager>
     {
+        [Header("Board Setup Properties")]
         public int width, height;
 
-        public GameObject cellPrefab1, cellPrefab2, wallPrefab, playerPrefab;
+        public GameObject cellPrefab1, wallPrefab, playerPrefab;
+        
+        [Tooltip("Number of enemies to spawn on the board.")]
+        public int enemiesToSpawn;
         
         [Tooltip("Boxes that will be placed on the cells grid.")]
-        public GameObject[] boxes;
-        public GameObject[,] cellGrid;  
+        public Wall.Wall[] boxes;
+        public Wall.Wall[,] cellGrid;  
 
         private void Start()
         {
-            cellGrid = new GameObject[width, height];
+            cellGrid = new Wall.Wall[width, height];
             
             SetupCellGrid();
             SetupWalls();
             SetupBoxes();
             IsCellEmpty();
             SpawnPlayer();
+            SpawnEnemies();
         }
 
         private void SetupCellGrid()
@@ -71,7 +78,7 @@ namespace Core
                 for (int z = 1; z < height; z++)
                 {
                     int boxToSpawn = Random.Range(0, boxes.Length); // Get a random box from the array of boxes.
-                    GameObject box = Instantiate(boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
+                    Wall.Wall box = Instantiate(boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
                     cellGrid[x, z] = box;
                     box.transform.SetParent(gameObject.transform);
                     box.name = $"Box ({x},{z})";
@@ -99,6 +106,14 @@ namespace Core
         private void SpawnPlayer()
         {
             Instantiate(playerPrefab, new Vector3(0, 1, height-1), Quaternion.identity);
+        }
+        
+        private void SpawnEnemies()
+        {
+            for (int i = 0; i < enemiesToSpawn; i++)
+            {
+                EnemyService.Instance.CreateEnemy(new Vector3(0, 1, 0));
+            }
         }
     }
 }

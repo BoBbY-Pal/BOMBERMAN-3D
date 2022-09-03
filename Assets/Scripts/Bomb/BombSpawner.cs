@@ -14,6 +14,9 @@ public class BombSpawner : MonoGenericSingleton<BombSpawner>
     private SphereCollider _bombSphereCollider;
     void Start()
     {
+        // Spawning bomb at start of the game so we don't need to spawn bomb in the middle of gameplay
+        // because instantiation is a expensive task that can lead to lag in the gameplay...
+        // Disabling mesh and collider is a much efficient than disabling the whole GameObject...
         _bombObject = Instantiate(bombPrefab);
         _bombMeshRenderer = _bombObject.GetComponent<MeshRenderer>();
         _bombSphereCollider = _bombObject.GetComponent<SphereCollider>();
@@ -37,6 +40,8 @@ public class BombSpawner : MonoGenericSingleton<BombSpawner>
     private IEnumerator Explode()
     {
         yield return new WaitForSeconds(explosionTime);
+        
+        // Disabling the mesh and collider instead of destroying the GameObject so that we can reuse the same object..
         _bombMeshRenderer.enabled = false;
         _bombSphereCollider.enabled = false;
         b_canSpawnBomb = true;

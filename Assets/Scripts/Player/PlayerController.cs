@@ -19,11 +19,8 @@ namespace Player
             if (Input.GetKeyDown(KeyCode.Space))
             {
                     BombSpawner.Instance.SpawnBomb(transform.position);
-                
             }
         }
-
-        
 
         private void MovePlayer()
         {
