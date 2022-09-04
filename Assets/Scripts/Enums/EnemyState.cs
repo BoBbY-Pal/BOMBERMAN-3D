@@ -2,6 +2,7 @@
 {
     public enum EnemyState
     {
+        None,
         Patrolling,
         Hiding
     }

@@ -1,8 +1,10 @@
+using System;
+using Interfaces;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDestructible
     {
         public float playerMoveSpeed;
         private Rigidbody _rigidbody;
@@ -41,6 +43,9 @@ namespace Player
             }
         }
         
-        
+        public void DestroyObject()
+        {
+            Destroy(gameObject);
+        }
     }
 }

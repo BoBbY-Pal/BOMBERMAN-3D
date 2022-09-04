@@ -11,14 +11,13 @@ namespace Enemy
 
         public float WalkPointRangeOnZ { get; }
     
-        public Vector3 walkPoint { get; set; }
+        public Vector3 CurrentDirection { get; set; }
         public float PatrolTime { get; }
 
         public EnemyModel(EnemSO enemySO)
         {
             MovementSpeed = enemySO.movementSpeed;
-            WalkPointRangeOnX = enemySO.walkPointRangeOnX;
-            WalkPointRangeOnZ = enemySO.WalkPointRangeOnZ;
+            
             PatrolTime = enemySO.patrolTime;
         }
     }

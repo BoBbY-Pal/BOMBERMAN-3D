@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95cc684478e495cb9bb963975a9d621, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  walkPointRange: 5
-  patrollingRange: 10
+  movementSpeed: 3
+  walkPointRangeOnX: 15
+  WalkPointRangeOnZ: 10
   patrolTime: 10

@@ -1,25 +1,26 @@
 ﻿using System;
+using System.Collections;
 using Enums;
 using UnityEngine;
+using Utilities;
 using Random = UnityEngine.Random;
 
 namespace Enemy.EnemyAI
 {
     public class Patrolling : EnemyStateBase
     {
-        private Vector3 _currentDirection;
-
+        private bool b_CanChangDir;
         protected override void Start()
         {
             base.Start();
-            _currentDirection = Vector3.right;
+            enemyModel.CurrentDirection = Vector3.right;
+            StartCoroutine(TimerRoutine(5));
         }
 
         public override void OnStateEnter()
         {
             base.OnStateEnter();
             enemyView.activeState = EnemyState.Patrolling;
-            
         }
 
         public override void OnStateExit()
@@ -27,31 +28,20 @@ namespace Enemy.EnemyAI
             base.OnStateExit();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            // if (EnemyService.Instance.enemies.Count <= 2)
-            // {
-            //     enemyView.currentEnemyState.ChangeCurrentState(enemyView.hidingState);
-            // }
-            // else
-            // {
-            //     
-            // }
+            // StartCoroutine(Patrol());
             Patrol();
         }
 
         private void Patrol()
         {
-            // switch (_currentDirection)
-            // {
-            //     
-            // }
             Vector3 currentPosition = enemyView.GetPosition();
-            bool isThereObstacle = Physics.Raycast(currentPosition, _currentDirection, 1,
+            bool isThereObstacle = Physics.Raycast(currentPosition, enemyModel.CurrentDirection, 1,
                                                 EnemyService.Instance.obstaclesLayerMask);
             
             Color rayColor = isThereObstacle ? Color.cyan : Color.red;
-            Debug.DrawRay(currentPosition, _currentDirection * 1, rayColor, Time.deltaTime);
+            Debug.DrawRay(currentPosition, enemyModel.CurrentDirection * 1, rayColor, Time.deltaTime);
             
             if (isThereObstacle)
             {
@@ -59,35 +49,54 @@ namespace Enemy.EnemyAI
             }
             if(!isThereObstacle)
             {
-                enemyView.Move(_currentDirection);
+                enemyView.Move(enemyModel.CurrentDirection);
+                // yield return new WaitForSeconds(5fenemyModel.CurrentDirection
+                
+                if (b_CanChangDir)
+                {   
+                    GameLogManager.CustomLog("Before" + enemyModel.CurrentDirection);
+                    StartCoroutine(TimerRoutine(1));
+
+                    SearchWalkPoint();
+                    
+                    enemyView.Move(enemyModel.CurrentDirection);
+                    GameLogManager.CustomLog("After" + enemyModel.CurrentDirection);
+                }
             }
         }
 
+        private IEnumerator TimerRoutine(float secs)
+        {
+            b_CanChangDir = false;
+            yield return new WaitForSeconds(secs);
+            b_CanChangDir = true;
+        }
+        
         private void SearchWalkPoint()
         {
             int lengthOfEnum = Enum.GetValues(typeof(Direction)).Length;
-            Direction randomDirection = (Direction)Random.Range(0, lengthOfEnum);
+            Direction randomDirection = (Direction) Random.Range(0, lengthOfEnum);
 
             switch (randomDirection)
             {
                 case Direction.Forward:
                 {
-                    _currentDirection = Vector3.forward;
+                    enemyModel.CurrentDirection = Vector3.forward;
                     break;
                 }
                 case Direction.Backward:
                 {
-                    _currentDirection = Vector3.back;
+                    enemyModel.CurrentDirection = Vector3.back;
                     break;
                 }
                 case Direction.Left:
                 {
-                    _currentDirection = Vector3.left;
+                    enemyModel.CurrentDirection = Vector3.left;
                     break;
                 }
                 case Direction.Right:
                 {
-                    _currentDirection = Vector3.right;
+                    enemyModel.CurrentDirection = Vector3.right;
                     break;
                 }
             }

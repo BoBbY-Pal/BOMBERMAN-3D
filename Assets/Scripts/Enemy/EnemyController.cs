@@ -2,6 +2,7 @@
 
 namespace Enemy
 {
+    // In case we want to add more functionalities to the enemy this script is always open for extension.
     public class EnemyController
     {
         private EnemyModel _enemyModel { get; }
@@ -13,8 +14,6 @@ namespace Enemy
             _enemyModel = enemyModel;
             _enemyView.Initialise(this);
         }
-
-        
 
         private void FindNewDirection()
         {

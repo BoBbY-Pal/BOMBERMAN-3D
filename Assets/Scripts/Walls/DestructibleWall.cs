@@ -6,7 +6,7 @@ namespace Wall
     {
         public void DestroyObject()
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
         }
     }
 }
