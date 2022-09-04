@@ -1,34 +1,24 @@
 ﻿using ScriptableObjects;
+using UnityEngine;
 
 namespace Enemy
 {
     public class EnemyModel
     {
-        public float MovementSpeed
-        {
-            get;
-        }
+        public float MovementSpeed { get; }
 
-        public float WalkPointRange
-        {
-            get;
-        }
+        public float WalkPointRangeOnX { get; }
 
-        public float PatrollingRange
-        {
-            get;
-        }
-
-        public float PatrolTime
-        {
-            get;
-        }
+        public float WalkPointRangeOnZ { get; }
+    
+        public Vector3 walkPoint { get; set; }
+        public float PatrolTime { get; }
 
         public EnemyModel(EnemSO enemySO)
         {
             MovementSpeed = enemySO.movementSpeed;
-            WalkPointRange = enemySO.walkPointRange;
-            PatrollingRange = enemySO.patrollingRange;
+            WalkPointRangeOnX = enemySO.walkPointRangeOnX;
+            WalkPointRangeOnZ = enemySO.WalkPointRangeOnZ;
             PatrolTime = enemySO.patrolTime;
         }
     }

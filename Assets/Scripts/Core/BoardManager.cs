@@ -112,7 +112,8 @@ namespace Core
         {
             for (int i = 0; i < enemiesToSpawn; i++)
             {
-                EnemyService.Instance.CreateEnemy(new Vector3(0, 1, 0));
+                int rand = Random.Range(0, height);
+                EnemyService.Instance.CreateEnemy(new Vector3(rand, 1, 0));
             }
         }
     }

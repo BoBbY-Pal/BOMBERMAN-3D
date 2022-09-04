@@ -7,8 +7,8 @@ namespace ScriptableObjects
     {
         [Header("Movement Parameters")] 
         public float movementSpeed;
-        public float walkPointRange;
-        public float patrollingRange;
+        public float walkPointRangeOnX;
+        public float WalkPointRangeOnZ;
         public float patrolTime;
     }
 }

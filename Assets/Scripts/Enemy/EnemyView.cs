@@ -8,17 +8,18 @@ namespace Enemy
     public class EnemyView : MonoBehaviour
     {
         private EnemyController _enemyController;
+        private Rigidbody _rigidbody;
         
         [SerializeField] private EnemyState initialState;
         [HideInInspector] public EnemyState activeState;
+        [HideInInspector] public EnemyStateBase currentEnemyState;
         
-        public EnemyStateBase currentEnemyState;
         public Patrolling patrollingState;
         public Hiding hidingState;
         
         private void Awake()
         {
-            throw new NotImplementedException();
+            _rigidbody = gameObject.GetComponent<Rigidbody>();
         }
 
         private void Start()
@@ -46,8 +47,8 @@ namespace Enemy
                     currentEnemyState = null;
                     break;
                 }
-                
             }
+            currentEnemyState.OnStateEnter();
         }
 
         private void Update()
@@ -60,9 +61,14 @@ namespace Enemy
             _enemyController = enemyController;
         }
 
-        public Vector3 GetCurrentPosition()
+        public Vector3 GetPosition()
         {
             return transform.position;
+        }
+
+        public void Move(Vector3 direction)
+        {
+            _rigidbody.velocity = direction * _enemyController.GetModel().MovementSpeed;
         }
     }
 }

@@ -14,7 +14,9 @@ GameObject:
   - component: {fileID: 2367466662932484599}
   - component: {fileID: 2367466662932484595}
   - component: {fileID: 1478548297335434720}
-  m_Layer: 0
+  - component: {fileID: -7579111860497849663}
+  - component: {fileID: 8777165911218837792}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -126,5 +128,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 742e39f81871400c91e2bd4cf86d4dd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialState: 0
+  activeState: 0
+  currentEnemyState: {fileID: 0}
+  patrollingState: {fileID: 8777165911218837792}
+  hidingState: {fileID: -7579111860497849663}
+--- !u!114 &-7579111860497849663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2367466662932484597}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acbed0c1a53748e199e29d8272c61112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8777165911218837792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2367466662932484597}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9781e26638354f3e99ecec90d91de7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

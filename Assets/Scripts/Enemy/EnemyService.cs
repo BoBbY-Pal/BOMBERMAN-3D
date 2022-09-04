@@ -16,14 +16,19 @@ namespace Enemy
         
         public LayerMask obstaclesLayerMask;
         
-        [HideInInspector] public List<EnemyController> enemies;
+        public Stack<EnemyController> enemies;
         
+        protected override void Awake()
+        {
+            base.Awake();
+            enemies = new Stack<EnemyController>();
+        }
 
-       public void CreateEnemy(Vector3 spawnTransform)
+        public void CreateEnemy(Vector3 spawnTransform)
        {
            EnemyModel enemyModel = new EnemyModel(enemySO);
            EnemyController enemyController = new EnemyController(enemyPrefab, enemyModel, spawnTransform);
-           enemies.Add(enemyController);
+           enemies.Push(enemyController);
        }
     }
 }

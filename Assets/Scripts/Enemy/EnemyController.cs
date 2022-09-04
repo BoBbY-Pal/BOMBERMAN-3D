@@ -20,5 +20,10 @@ namespace Enemy
         {
             throw new System.NotImplementedException();
         }
+
+        public EnemyModel GetModel()
+        {
+            return _enemyModel;
+        }
     }
 }

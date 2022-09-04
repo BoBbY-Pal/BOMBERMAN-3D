@@ -15,7 +15,7 @@ namespace Enemy.EnemyAI
 
         protected virtual void Start()
         {
-            // enemyModel = EnemyService.Instance.tankController.GetModel(); 
+            enemyModel = EnemyService.Instance.enemies.Peek().GetModel(); 
         }
 
         public virtual void OnStateEnter()

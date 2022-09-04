@@ -1,6 +1,6 @@
 ﻿using Utilities;
 
-namespace UI
+namespace Managers
 {
     public class UIManager : MonoGenericSingleton<UIManager>
     {
