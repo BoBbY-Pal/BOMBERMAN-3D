@@ -44,6 +44,9 @@ public class BombSpawner : MonoGenericSingleton<BombSpawner>
         // Disabling the mesh and collider instead of destroying the GameObject so that we can reuse the same object..
         _bombMeshRenderer.enabled = false;
         _bombSphereCollider.enabled = false;
+        Instantiate(explosionParticle, new Vector3(_bombObject.transform.position.x, _bombObject.transform.position.y,
+                _bombObject.transform.position.z+1),
+            Quaternion.identity);
         b_canSpawnBomb = true;
     }
 }
