@@ -1,27 +1,42 @@
 ﻿using Enemy;
+using ScriptableObjects;
 using UnityEngine;
 using Utilities;
-using Wall;
 
 namespace Core
 {
+    // Creating whole board in the runTime so if in future there's a need of even 50*50 grid
+    // we just need to pass in width and height into a board scriptable object and there we go...
     public class BoardManager : MonoGenericSingleton<BoardManager>
     {
-        [Header("Board Setup Properties")]
-        public int width, height;
+        [Tooltip("Scriptable object of a Board that contains all the board properties.")]
+        [SerializeField] private BoardSO boardSo;
+        
+        private int _width, _height;
+        private int _enemiesToSpawn;
 
-        public GameObject cellPrefab1, wallPrefab, playerPrefab;
-        
-        [Tooltip("Number of enemies to spawn on the board.")]
-        public int enemiesToSpawn;
-        
+        private GameObject _cellPrefab, _wallPrefab, _playerPrefab;
+
         [Tooltip("Boxes that will be placed on the cells grid.")]
-        public Wall.Wall[] boxes;
-        public Wall.Wall[,] cellGrid;  
+        private Wall.Wall[] _boxes;
+
+        private Wall.Wall[,] _cellGrid;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _width = boardSo.width;
+            _height = boardSo.height;
+            _cellPrefab = boardSo.cellPrefab;
+            _wallPrefab = boardSo.wallPrefab;
+            _playerPrefab = boardSo.playerPrefab;
+            _enemiesToSpawn = boardSo.numberOfEnemies;
+            _boxes = boardSo.boxes;
+        }
 
         private void Start()
         {
-            cellGrid = new Wall.Wall[width, height];
+            _cellGrid = new Wall.Wall[_width, _height];
             
             SetupCellGrid();
             SetupWalls();
@@ -33,11 +48,11 @@ namespace Core
 
         private void SetupCellGrid()
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _width; x++)
             {
-                for (int z = 0; z < height; z++)
+                for (int z = 0; z < _height; z++)
                 {
-                    GameObject obj = Instantiate(cellPrefab1, new Vector3(x, 0, z), cellPrefab1.transform.rotation);
+                    GameObject obj = Instantiate(_cellPrefab, new Vector3(x, 0, z), _cellPrefab.transform.rotation);
                     obj.transform.SetParent(gameObject.transform);
                     obj.name = $"Cell ({x},{z})";
                 }
@@ -47,24 +62,24 @@ namespace Core
         private void SetupWalls()
         {
             // Top Down Walls
-            for (int x = 0; x < width; x++) 
+            for (int x = 0; x < _width; x++) 
             {
-                GameObject downWall = Instantiate(wallPrefab, new Vector3(x, 1, -1), wallPrefab.transform.rotation);
+                GameObject downWall = Instantiate(_wallPrefab, new Vector3(x, 1, -1), _wallPrefab.transform.rotation);
                 downWall.transform.SetParent(gameObject.transform);
                 downWall.name = $"BottomWall ({x})";
                 
-                GameObject topWall = Instantiate(wallPrefab, new Vector3(x, 1, height), wallPrefab.transform.rotation);
+                GameObject topWall = Instantiate(_wallPrefab, new Vector3(x, 1, _height), _wallPrefab.transform.rotation);
                 topWall.transform.SetParent(gameObject.transform);
                 topWall.name = $"TopWall ({x})";
             }
             // Left Right Walls
-            for (int z = 0; z < height; z++) 
+            for (int z = 0; z < _height; z++) 
             {
-                GameObject leftWall = Instantiate(wallPrefab, new Vector3(-1, 1, z), Quaternion.identity);
+                GameObject leftWall = Instantiate(_wallPrefab, new Vector3(-1, 1, z), Quaternion.identity);
                 leftWall.transform.SetParent(gameObject.transform);
                 leftWall.name = $"LeftWall ({z})";
                 
-                GameObject rightWall = Instantiate(wallPrefab, new Vector3(width, 1, z), Quaternion.identity);
+                GameObject rightWall = Instantiate(_wallPrefab, new Vector3(_width, 1, z), Quaternion.identity);
                 rightWall.transform.SetParent(gameObject.transform);
                 rightWall.name = $" RightWall ({z})";
             }
@@ -73,13 +88,13 @@ namespace Core
         private void SetupBoxes()
         {
             
-            for (int x = 1; x < width; x++)
+            for (int x = 1; x < _width; x++)
             {
-                for (int z = 1; z < height; z++)
+                for (int z = 1; z < _height; z++)
                 {
-                    int boxToSpawn = Random.Range(0, boxes.Length); // Get a random box from the array of boxes.
-                    Wall.Wall box = Instantiate(boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
-                    cellGrid[x, z] = box;
+                    int boxToSpawn = Random.Range(0, _boxes.Length); // Get a random box from the array of boxes.
+                    Wall.Wall box = Instantiate(_boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
+                    _cellGrid[x, z] = box;
                     box.transform.SetParent(gameObject.transform);
                     box.name = $"Box ({x},{z})";
                     z++;
@@ -91,11 +106,11 @@ namespace Core
         private void IsCellEmpty()
         {
             
-            for (int x = 1; x < width; x++)
+            for (int x = 1; x < _width; x++)
             {
-                for (int z = 1; z < height; z++)
+                for (int z = 1; z < _height; z++)
                 {
-                    if (cellGrid[x, z] != null)
+                    if (_cellGrid[x, z] != null)
                     {
                         GameLogManager.CustomLog("Found something!");
                     }
@@ -105,14 +120,14 @@ namespace Core
 
         private void SpawnPlayer()
         {
-            Instantiate(playerPrefab, new Vector3(0, 1, height-1), Quaternion.identity);
+            Instantiate(_playerPrefab, new Vector3(0, 1, _height-1), Quaternion.identity);
         }
         
         private void SpawnEnemies()
         {
-            for (int i = 0; i < enemiesToSpawn; i++)
+            for (int i = 0; i < _enemiesToSpawn; i++)
             {
-                int rand = Random.Range(0, height);
+                int rand = Random.Range(0, _height);
                 EnemyService.Instance.CreateEnemy(new Vector3(rand, 1, 0));
             }
         }

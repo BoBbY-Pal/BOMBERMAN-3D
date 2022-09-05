@@ -17,7 +17,7 @@ namespace Enemy
         [HideInInspector] public EnemyStateBase currentEnemyState;
         
         public Patrolling patrollingState;
-        public Hiding hidingState;
+        public RunningAway runningAwayState;
         
         private void Awake()
         {
@@ -27,6 +27,7 @@ namespace Enemy
         private void Start()
         {
             InitialiseState();
+            
         }
 
         private void InitialiseState()
@@ -39,9 +40,9 @@ namespace Enemy
                     break;
                 }
 
-                case EnemyState.Hiding:
+                case EnemyState.RunningAway:
                 {
-                    currentEnemyState = hidingState;
+                    currentEnemyState = runningAwayState;
                     break;
                 }
                 default:
@@ -68,33 +69,19 @@ namespace Enemy
             _rigidbody.velocity = direction * enemyController.GetModel().MovementSpeed;
         }
 
-        // private void OnCollisionEnter(Collision collisionCollider)
-        // {
-        //     GameLogManager.CustomLog("Collision Happened.");
-        //     if (collisionCollider.gameObject.GetComponent<PlayerController>())
-        //     {
-        //         IDestructible destructible = collisionCollider.gameObject.GetComponent<IDestructible>();
-        //         destructible?.DestroyObject();
-        //     }
-        // }
-        private void OnTriggerEnter(Collider collisionCollider)
+        private void OnCollisionEnter(Collision collision)
         {
-            GameLogManager.CustomLog("Collision Happened.");
-            if (collisionCollider.gameObject.GetComponent<PlayerController>())
+            if (collision.gameObject.GetComponent<PlayerController>())
             {
-                IDestructible destructible = collisionCollider.gameObject.GetComponent<IDestructible>();
+                IDestructible destructible = collision.gameObject.GetComponent<IDestructible>();
                 destructible?.DestroyObject();
             }
         }
+
         public void DestroyObject()
         {
             Destroy(gameObject);
             EnemyService.Instance.enemies.Remove(enemyController);
-            
-            if (EnemyService.Instance.enemies.Count <= 2)
-            {
-                currentEnemyState.ChangeCurrentState(hidingState);
-            }
         }
     }
 }

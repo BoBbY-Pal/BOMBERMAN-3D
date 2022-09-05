@@ -4,6 +4,6 @@
     {
         None,
         Patrolling,
-        Hiding
+        RunningAway
     }
 }

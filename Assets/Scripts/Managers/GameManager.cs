@@ -42,5 +42,10 @@ namespace Managers
         {
             Application.Quit();
         }
+
+        public void GameOver()
+        {
+            GameLogManager.CustomLog("Game Over!");
+        }
     }
 }

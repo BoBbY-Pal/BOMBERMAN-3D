@@ -2,14 +2,13 @@
 using System.Collections;
 using Enums;
 using UnityEngine;
-using Utilities;
 using Random = UnityEngine.Random;
 
 namespace Enemy.EnemyAI
 {
     public class Patrolling : EnemyStateBase
     {
-        private bool b_CanChangDir;
+        
         protected override void Start()
         {
             base.Start();
@@ -30,15 +29,21 @@ namespace Enemy.EnemyAI
 
         private void FixedUpdate()
         {
-            // StartCoroutine(Patrol());
-            Patrol();
+            if (_enemyService.enemies.Count <= 2)
+            {
+                enemyView.currentEnemyState.ChangeCurrentState(enemyView.runningAwayState);
+            }
+            else
+            {
+                Patrol();
+            }
         }
 
         private void Patrol()
         {
             Vector3 currentPosition = enemyView.GetPosition();
             bool isThereObstacle = Physics.Raycast(currentPosition, enemyModel.CurrentDirection, 1,
-                                                EnemyService.Instance.obstaclesLayerMask);
+                _enemyService.obstaclesLayerMask);
             
             Color rayColor = isThereObstacle ? Color.cyan : Color.red;
             Debug.DrawRay(currentPosition, enemyModel.CurrentDirection * 1, rayColor, Time.deltaTime);
@@ -50,26 +55,25 @@ namespace Enemy.EnemyAI
             if(!isThereObstacle)
             {
                 enemyView.Move(enemyModel.CurrentDirection);
-                // yield return new WaitForSeconds(5fenemyModel.CurrentDirection
-                
-                if (b_CanChangDir)
+
+                if (enemyModel.b_CanChangeDirection)
                 {   
-                    GameLogManager.CustomLog("Before" + enemyModel.CurrentDirection);
+                    // GameLogManager.CustomLog("Before" + enemyModel.CurrentDirection);
                     StartCoroutine(TimerRoutine(1));
 
                     SearchWalkPoint();
                     
                     enemyView.Move(enemyModel.CurrentDirection);
-                    GameLogManager.CustomLog("After" + enemyModel.CurrentDirection);
+                    // GameLogManager.CustomLog("After" + enemyModel.CurrentDirection);
                 }
             }
         }
 
         private IEnumerator TimerRoutine(float secs)
         {
-            b_CanChangDir = false;
+            enemyModel.b_CanChangeDirection = false;
             yield return new WaitForSeconds(secs);
-            b_CanChangDir = true;
+            enemyModel.b_CanChangeDirection = true;
         }
         
         private void SearchWalkPoint()

@@ -7,10 +7,12 @@ namespace Enemy.EnemyAI
     {   
         protected EnemyView enemyView;
         protected EnemyModel enemyModel;
+        protected EnemyService _enemyService;
 
         protected virtual void Awake()
         {
             enemyView = GetComponent<EnemyView>();
+            _enemyService = EnemyService.Instance;
         }
 
         protected virtual void Start()

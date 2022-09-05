@@ -15,7 +15,7 @@ namespace Enemy
         [SerializeField] private EnemSO enemySO;
         
         public LayerMask obstaclesLayerMask;
-        
+        public Transform playerTransform;
         public List<EnemyController> enemies;
         
         protected override void Awake()

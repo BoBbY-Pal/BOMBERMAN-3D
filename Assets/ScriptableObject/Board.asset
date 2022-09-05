@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf551c354f34a499855e769ad26c230, type: 3}
   m_Name: Board
   m_EditorClassIdentifier: 
-  width: 15
-  height: 10
+  width: 10
+  height: 15
+  numberOfEnemies: 5
   cellPrefab: {fileID: 8779492108697487839, guid: 55ceed449e9560f4b98a880415828d55, type: 3}
   wallPrefab: {fileID: 7601521940616232, guid: ca559bfc60fb3b24899713502ac927ae, type: 3}
   playerPrefab: {fileID: 4611010635108294575, guid: 3262114797525534d9adaf0e4318e7a4, type: 3}
-  enemyPrefab: {fileID: 2367466662932484597, guid: d7424793d73a32b4e97444153fd507a6, type: 3}
   boxes:
-  - {fileID: 5554394367808511487, guid: e6a545a67c10dee48b32c50377431c5f, type: 3}
-  - {fileID: 1213881246229987471, guid: 77c92cb81390c8c4781445f0f685e73e, type: 3}
+  - {fileID: -3739036637251979041, guid: e6a545a67c10dee48b32c50377431c5f, type: 3}
+  - {fileID: 1734230458302128508, guid: 77c92cb81390c8c4781445f0f685e73e, type: 3}

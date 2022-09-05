@@ -8,14 +8,15 @@ namespace ScriptableObjects
         [Header("Board Properties")]
         public int width;
         public int height;
+        [Tooltip("Number of enemies to spawn on the board.")]
+        public int numberOfEnemies;
         
         [Header("Prefabs")]
         public GameObject cellPrefab;
         public GameObject wallPrefab;
         public GameObject playerPrefab;
-        public GameObject enemyPrefab;
         
         [Tooltip("Boxes that will be placed on the cells grid that can be Destructible/NonDestructible.")]
-        public GameObject[] boxes;
+        public Wall.Wall[] boxes;
     }
 }

@@ -7,11 +7,9 @@ namespace Enemy
     {
         public float MovementSpeed { get; }
 
-        public float WalkPointRangeOnX { get; }
-
-        public float WalkPointRangeOnZ { get; }
-    
         public Vector3 CurrentDirection { get; set; }
+        public bool b_CanChangeDirection { get; set; }
+        
         public float PatrolTime { get; }
 
         public EnemyModel(EnemSO enemySO)
