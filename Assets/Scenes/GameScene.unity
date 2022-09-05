@@ -199,15 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64cf8d2ff3045039d45b1e8cf6c6bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 15
-  height: 10
-  cellPrefab1: {fileID: 8779492108697487839, guid: 55ceed449e9560f4b98a880415828d55, type: 3}
-  wallPrefab: {fileID: 7601521940616232, guid: ca559bfc60fb3b24899713502ac927ae, type: 3}
-  playerPrefab: {fileID: 4611010635108294575, guid: 3262114797525534d9adaf0e4318e7a4, type: 3}
-  enemiesToSpawn: 3
-  boxes:
-  - {fileID: -3739036637251979041, guid: e6a545a67c10dee48b32c50377431c5f, type: 3}
-  - {fileID: 1734230458302128508, guid: 77c92cb81390c8c4781445f0f685e73e, type: 3}
+  boardSo: {fileID: 11400000, guid: 2463cc694099a0746831540cc6536939, type: 2}
 --- !u!4 &177967436
 Transform:
   m_ObjectHideFlags: 0
