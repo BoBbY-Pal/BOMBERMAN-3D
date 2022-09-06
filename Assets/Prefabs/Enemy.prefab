@@ -134,7 +134,7 @@ MonoBehaviour:
   activeState: 0
   currentEnemyState: {fileID: 0}
   patrollingState: {fileID: 8777165911218837792}
-  hidingState: {fileID: -7579111860497849663}
+  runningAwayState: {fileID: -7579111860497849663}
 --- !u!114 &-7579111860497849663
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using System;
+using Bomb;
 using Interfaces;
 using Managers;
 using UnityEngine;
@@ -46,8 +46,8 @@ namespace Player
         
         public void DestroyObject()
         {
-            Destroy(gameObject);
             GameManager.Instance.GameOver();
+            Destroy(gameObject);
         }
     }
 }

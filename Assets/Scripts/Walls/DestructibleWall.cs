@@ -1,12 +1,12 @@
 ﻿using Interfaces;
 
-namespace Wall
+namespace Walls
 {
     public class DestructibleWall : Wall, IDestructible
     {
         public void DestroyObject()
         {
-            Destroy(gameObject, 2f);
+            Destroy(gameObject);
         }
     }
 }

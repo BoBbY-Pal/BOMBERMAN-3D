@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Wall
+namespace Walls
 {
     // This is a Base Wall class that can be used in future for adding more functionalities to walls,
     // any other types of walls will be inherited from this class...

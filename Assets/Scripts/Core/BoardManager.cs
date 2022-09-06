@@ -18,9 +18,9 @@ namespace Core
         private GameObject _cellPrefab, _wallPrefab, _playerPrefab;
 
         [Tooltip("Boxes that will be placed on the cells grid.")]
-        private Wall.Wall[] _boxes;
+        private Walls.Wall[] _boxes;
 
-        private Wall.Wall[,] _cellGrid;
+        public Walls.Wall[,] _cellGrid;
 
         protected override void Awake()
         {
@@ -36,12 +36,12 @@ namespace Core
 
         private void Start()
         {
-            _cellGrid = new Wall.Wall[_width, _height];
+            _cellGrid = new Walls.Wall[_width, _height];
             
             SetupCellGrid();
             SetupWalls();
             SetupBoxes();
-            IsCellEmpty();
+            // IsCellEmpty();
             SpawnPlayer();
             SpawnEnemies();
         }
@@ -93,7 +93,7 @@ namespace Core
                 for (int z = 1; z < _height; z++)
                 {
                     int boxToSpawn = Random.Range(0, _boxes.Length); // Get a random box from the array of boxes.
-                    Wall.Wall box = Instantiate(_boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
+                    Walls.Wall box = Instantiate(_boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
                     _cellGrid[x, z] = box;
                     box.transform.SetParent(gameObject.transform);
                     box.name = $"Box ({x},{z})";
@@ -127,8 +127,16 @@ namespace Core
         {
             for (int i = 0; i < _enemiesToSpawn; i++)
             {
-                int rand = Random.Range(0, _height);
-                EnemyService.Instance.CreateEnemy(new Vector3(rand, 1, 0));
+                int randX = Random.Range(0, _width - 1);
+                int randZ = Random.Range(0, _height - 1);
+
+                while (_cellGrid[randX, randZ] != null)
+                {
+                    randX = Random.Range(0, _width - 1);
+                    randZ = Random.Range(0, _height - 1);
+                }
+                EnemyService.Instance.CreateEnemy(new Vector3(randX, 1, randZ));
+                GameLogManager.CustomLog("Enemy spawned.");
             }
         }
     }

@@ -1,52 +1,58 @@
 using System.Collections;
+using Core;
 using UnityEngine;
 using Utilities;
+using Walls;
 
-public class BombSpawner : MonoGenericSingleton<BombSpawner>
+namespace Bomb
 {
-    [SerializeField] private GameObject bombPrefab;
-    private GameObject _bombObject;
-    private bool b_canSpawnBomb = true;
-    [SerializeField] private float explosionTime;
-    [SerializeField] private ParticleSystem explosionParticle;
-    
-    private MeshRenderer _bombMeshRenderer;
-    private SphereCollider _bombSphereCollider;
-    void Start()
+    public class BombSpawner : MonoGenericSingleton<BombSpawner>
     {
-        // Spawning bomb at start of the game so we don't need to spawn bomb in the middle of gameplay
-        // because instantiation is a expensive task that can lead to lag in the gameplay...
-        // Disabling mesh and collider is a much efficient than disabling the whole GameObject...
-        _bombObject = Instantiate(bombPrefab);
-        _bombMeshRenderer = _bombObject.GetComponent<MeshRenderer>();
-        _bombSphereCollider = _bombObject.GetComponent<SphereCollider>();
-        _bombMeshRenderer.enabled = false;
-        _bombSphereCollider.enabled = false;
-    }
+        [SerializeField] private Bomb bombPrefab;
+        private Bomb _bombObject;
+        private bool b_canSpawnBomb = true;
+        
+        
+        
 
-    public void SpawnBomb(Vector3 bombSpawnPosition)
-    {
-        if (b_canSpawnBomb)
+        
+        
+        // private MeshRenderer _bombMeshRenderer;
+        // private SphereCollider _bombSphereCollider;
+        void Start()
         {
-            b_canSpawnBomb = false;
-            _bombObject.transform.position = bombSpawnPosition;
-            _bombMeshRenderer.enabled = true;
-            _bombSphereCollider.enabled = true;
-            StartCoroutine(Explode());     
+            // Spawning bomb at start of the game so we don't need to spawn bomb in the middle of gameplay
+            // because instantiation is a expensive task that can lead to lag in the gameplay...
+            // Disabling mesh and collider is a much efficient than disabling the whole GameObject...
+            _bombObject = Instantiate(bombPrefab);
+            
         }
-        
-    }
 
-    private IEnumerator Explode()
-    {
-        yield return new WaitForSeconds(explosionTime);
-        
-        // Disabling the mesh and collider instead of destroying the GameObject so that we can reuse the same object..
-        _bombMeshRenderer.enabled = false;
-        _bombSphereCollider.enabled = false;
-        Instantiate(explosionParticle, new Vector3(_bombObject.transform.position.x, _bombObject.transform.position.y,
-                _bombObject.transform.position.z+1),
-            Quaternion.identity);
-        b_canSpawnBomb = true;
+        public void SpawnBomb(Vector3 position)
+        {
+            if (b_canSpawnBomb)
+            {
+                b_canSpawnBomb = false;
+                
+                int x = Mathf.RoundToInt(position.x);
+                int z = Mathf.RoundToInt(position.z);
+              
+                
+                _bombObject.PlaceBomb(new Vector3(x, position.y, z));
+                Explode();     
+            }
+        }
+
+        private void Explode()
+        {
+            // Disabling the mesh and collider instead of destroying the GameObject so that we can reuse the same object..
+            // _bombMeshRenderer.enabled = false;
+            // _bombSphereCollider.enabled = false;
+            
+            StartCoroutine(_bombObject.Explode());
+            GameLogManager.CustomLog("Bomb Exploded");
+
+            b_canSpawnBomb = true;
+        }
     }
 }

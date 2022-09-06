@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1172260136878094383}
   - component: {fileID: 6964322221174953303}
   - component: {fileID: 7722650119759608148}
+  - component: {fileID: 1310843377024909573}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -93,11 +94,30 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404063362422712517}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1310843377024909573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404063362422712517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7963d035154790b92649a5099f7b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionTime: 3
+  explosionImpactArea: 3
+  _bombMeshRenderer: {fileID: 6964322221174953303}
+  _bombSphereCollider: {fileID: 7722650119759608148}
+  explosionParticle: {fileID: 4427026246353273895}
+  explosionParticlePrefab: {fileID: 6080489361867725135, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}
+  canBeUsed: 0
 --- !u!1001 &7569926664472042856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153,8 +173,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bomb Burst
       objectReference: {fileID: 0}
+    - target: {fileID: 8111950666447808482, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}
+--- !u!198 &4427026246353273895 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6080489361867725135, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}
+  m_PrefabInstance: {fileID: 7569926664472042856}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5661908078248213571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2854977975269138731, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}

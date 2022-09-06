@@ -80,8 +80,9 @@ namespace Enemy
 
         public void DestroyObject()
         {
-            Destroy(gameObject);
             EnemyService.Instance.enemies.Remove(enemyController);
+            GameLogManager.CustomLog("Enemy died.");
+            Destroy(gameObject);
         }
     }
 }
