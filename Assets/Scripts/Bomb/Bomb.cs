@@ -18,8 +18,8 @@ namespace Bomb
         [Tooltip("Impact of explosion from the position of the bomb.")]
         [SerializeField] private int explosionImpactArea;
         
-        public MeshRenderer _bombMeshRenderer;
-        public SphereCollider _bombSphereCollider;
+        private MeshRenderer _bombMeshRenderer;
+        private SphereCollider _bombSphereCollider;
         [SerializeField] private ParticleSystem explosionParticle;
         
         [SerializeField] private ParticleSystem explosionParticlePrefab;
@@ -35,6 +35,8 @@ namespace Bomb
             _bombSphereCollider = gameObject.GetComponent<SphereCollider>();
 
             // explosionParticle.gameObject.SetActive(false);
+            
+            // Disabling specific components is much efficient than disabling whole GameObject...
             _bombMeshRenderer.enabled = false;
             _bombSphereCollider.enabled = false;
             
@@ -57,6 +59,7 @@ namespace Bomb
             }
             
             yield return new WaitForSeconds(explosionTime);
+            // Disabling the mesh and collider instead of destroying the GameObject so that we can reuse the same object..
             _bombMeshRenderer.enabled = false;
             _bombSphereCollider.enabled = false;
             _bombSphereCollider.isTrigger = true;
@@ -89,6 +92,8 @@ namespace Bomb
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
+            canBeUsed = false;
         }
 
         private void Explosion(Vector3 bombPosition, Vector3 directionToCheck)
@@ -100,6 +105,7 @@ namespace Bomb
                 var tempPos = bombPosition + (directionToCheck * i);
                 
                 Wall wall = _boardManager._cellGrid[(int) tempPos.x, (int) tempPos.z];
+                
                 if (wall != null)
                 {
                     destructibleWall = wall.GetComponent<DestructibleWall>();
@@ -108,7 +114,7 @@ namespace Bomb
                     {
                         Instantiate(explosionParticlePrefab, new Vector3(tempPos.x, tempPos.y,
                             tempPos.z), Quaternion.identity);
-                        GameLogManager.CustomLog("wall Particle spawned");
+                        
                         _boardManager._cellGrid[(int) tempPos.x, (int) tempPos.z] = null;
                     }
                     else
@@ -120,7 +126,6 @@ namespace Bomb
                 {
                     Instantiate(explosionParticlePrefab, new Vector3(tempPos.x, tempPos.y,
                         tempPos.z), Quaternion.identity);
-                    GameLogManager.CustomLog("null Particle spawned");
                 }
             }
         }

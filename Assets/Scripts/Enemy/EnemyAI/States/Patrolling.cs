@@ -8,12 +8,13 @@ namespace Enemy.EnemyAI
 {
     public class Patrolling : EnemyStateBase
     {
+        // after how many sec enemy should change the direction.
+        private float enemyMoveTimer = 1; 
         
         protected override void Start()
         {
             base.Start();
             enemyModel.CurrentDirection = Vector3.right;
-            StartCoroutine(TimerRoutine(5));
         }
 
         public override void OnStateEnter()
@@ -27,7 +28,7 @@ namespace Enemy.EnemyAI
             base.OnStateExit();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             if (_enemyService.enemies.Count <= 2)
             {
@@ -36,6 +37,17 @@ namespace Enemy.EnemyAI
             else
             {
                 Patrol();
+            }
+
+            enemyMoveTimer -= Time.deltaTime;
+            if (enemyMoveTimer <= 0)
+            {
+                enemyModel.b_CanChangeDirection = true;
+                enemyMoveTimer = 1;
+            }
+            else
+            {
+                enemyModel.b_CanChangeDirection = false;
             }
         }
 
@@ -57,14 +69,9 @@ namespace Enemy.EnemyAI
                 enemyView.Move(enemyModel.CurrentDirection);
 
                 if (enemyModel.b_CanChangeDirection)
-                {   
-                    // GameLogManager.CustomLog("Before" + enemyModel.CurrentDirection);
-                    StartCoroutine(TimerRoutine(1));
-
+                {
                     SearchWalkPoint();
-                    
                     enemyView.Move(enemyModel.CurrentDirection);
-                    // GameLogManager.CustomLog("After" + enemyModel.CurrentDirection);
                 }
             }
         }

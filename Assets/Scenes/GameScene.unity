@@ -813,7 +813,7 @@ MonoBehaviour:
   enemySO: {fileID: 11400000, guid: a0e3c0091fa2eda43916cd704e48568c, type: 2}
   obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 200
+    m_Bits: 456
   playerTransform: {fileID: 4611010635108294568, guid: 3262114797525534d9adaf0e4318e7a4, type: 3}
 --- !u!4 &1860949679
 Transform:
