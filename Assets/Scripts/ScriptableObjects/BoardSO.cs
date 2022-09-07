@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Walls;
 
 namespace ScriptableObjects
 {
@@ -17,8 +18,8 @@ namespace ScriptableObjects
         public GameObject playerPrefab;
         
         [Tooltip("Boxes that will be placed on the cells grid that can be Destructible/NonDestructible.")]
-        public Walls.Wall[] boxes;
-        public GameObject destructibleWall;
+        public Wall[] boxes;
+        public Wall destructibleWall;
         
     }
 }

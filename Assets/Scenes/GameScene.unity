@@ -305,7 +305,6 @@ MonoBehaviour:
   panel: {fileID: 1738769911}
   title: {fileID: 1820278774}
   scoreTxt: {fileID: 24346756}
-  highScore: {fileID: 0}
   resumeBtn: {fileID: 968332746}
   playAgainBtn: {fileID: 805328266}
   restartBtn: {fileID: 1261221928}
@@ -355,7 +354,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1356631479}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177967434
 GameObject:
@@ -2090,8 +2089,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 95633173}
   - {fileID: 1860949679}
+  - {fileID: 95633173}
   - {fileID: 177967436}
   - {fileID: 62144155}
   - {fileID: 701834463}
@@ -2582,7 +2581,7 @@ MonoBehaviour:
   enemySO: {fileID: 11400000, guid: a0e3c0091fa2eda43916cd704e48568c, type: 2}
   obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 456
+    m_Bits: 448
   playerTransform: {fileID: 0}
 --- !u!4 &1860949679
 Transform:
@@ -2597,7 +2596,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1356631479}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1985438339
 GameObject:

@@ -1,4 +1,3 @@
-using System;
 using Interfaces;
 using UnityEngine;
 using Utilities;
@@ -8,7 +7,7 @@ public class ExplosionParticle : MonoBehaviour
 {
     private void Start()
     {
-        Destroy(gameObject, .7f);
+        Destroy(gameObject, .6f);
     }
 
     private void OnTriggerEnter(Collider collider)

@@ -13,15 +13,16 @@ namespace Managers
     {
         [Tooltip("Scriptable object of a Board that contains all the board properties.")]
         [SerializeField] private BoardSO boardSo;
-        
+
         private int _width, _height;
         private int _enemiesToSpawn;
 
-        private GameObject _cellPrefab, _destructibleBox , _wallPrefab, _playerPrefab;
-
+        private GameObject _cellPrefab, _wallPrefab, _playerPrefab;
+    
         [Tooltip("Boxes that will be placed on the cells grid.")]
         private Wall[] _boxes;
 
+        private Wall _destructibleBox;
         public Wall[,] cellGrid;
 
         protected override void Awake()
@@ -42,8 +43,8 @@ namespace Managers
             cellGrid = new Wall[_width, _height];
             SoundManager.Instance.PlayMusic(SoundTypes.Music);
             SetupCellGrid();
+            SetupWalls();
             SetupObstacles();
-            SetupBoxes();
             SpawnPlayer();
             SpawnEnemies();
         }
@@ -61,7 +62,7 @@ namespace Managers
             }
         }
         
-        private void SetupObstacles()
+        private void SetupWalls()
         {
             // Top Down Walls
             for (int x = 0; x < _width; x++) 
@@ -87,11 +88,11 @@ namespace Managers
             }
         }
 
-        private void SetupBoxes()
+        private void SetupObstacles()
         {
-            
             for (int x = 1; x < _width; x++)
             {
+                SpawnDestructibleBox();
                 for (int z = 1; z < _height; z++)
                 {
                     int boxToSpawn = Random.Range(0, _boxes.Length); // Get a random box from the array of boxes.
@@ -100,16 +101,34 @@ namespace Managers
                     box.transform.SetParent(gameObject.transform);
                     box.name = $"Box ({x},{z})";
 
-                    // if (_cellGrid[-x, z] == null)
-                    // {
-                    //     Instantiate(_destructibleBox, new Vector3(x, 0.5f, z), Quaternion.identity);
-                    // }
                     z++;
                 }
+                SpawnDestructibleBox();
                 x++;
             }
         }
 
+        private void SpawnDestructibleBox()
+        {
+            int ranX = Random.Range(1, _width);
+            int randZ = Random.Range(0, _height);
+            
+            int iterations = 0; // By this will Make sure we will not end up in a crashing of game due to excessive iterations.
+            while (cellGrid[ranX, randZ] != null && iterations < 100)
+            {
+                ranX = Random.Range(1, _width);
+                randZ = Random.Range(0, _height);
+                GameLogManager.CustomLog(iterations);
+                iterations++;
+            }
+            
+            Wall desWall = Instantiate(_destructibleBox, new Vector3(ranX, 0.5f, randZ), Quaternion.identity);
+            cellGrid[ranX, randZ] = desWall;
+            desWall.transform.SetParent(gameObject.transform);
+            desWall.name = $"Box ({ranX},{randZ})";
+            
+        }
+        
         private void SpawnPlayer()
         {
             Instantiate(_playerPrefab, new Vector3(0, 1, _height-1), Quaternion.identity);
@@ -119,13 +138,15 @@ namespace Managers
         {
             for (int i = 0; i < _enemiesToSpawn; i++)
             {
-                int randX = Random.Range(0, _width - 1);
-                int randZ = Random.Range(0, _height - 1);
+                int randX = Random.Range(0, _width);
+                int randZ = Random.Range(0, _height);
 
-                while (cellGrid[randX, randZ] != null)
+                int iterations = 0; // By this will Make sure we will not end up in a crashing of game due to excessive iterations.
+                while (cellGrid[randX, randZ] != null && iterations < 100)
                 {
-                    randX = Random.Range(0, _width - 1);
-                    randZ = Random.Range(0, _height - 1);
+                    randX = Random.Range(0, _width);
+                    randZ = Random.Range(0, _height);
+                    iterations++;
                 }
                 EnemyService.Instance.CreateEnemy(new Vector3(randX, 1, randZ));
                 GameLogManager.CustomLog("Enemy spawned.");
