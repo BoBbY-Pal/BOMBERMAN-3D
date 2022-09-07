@@ -1,38 +1,73 @@
+using Enums;
+using Managers;
 using TMPro;
 using UnityEngine;
 using Utilities;
 
-public class UIManager : MonoGenericSingleton<UIManager>
+namespace UI_Services
 {
-    public GameObject panel;
-    public TextMeshProUGUI title, score, highScore;
-    public GameObject resumeBtn, playAgainBtn, restartBtn, menuBtn, nextLevelBtn;
-
-    private void OnEnable()
+    public class UIManager : MonoGenericSingleton<UIManager>
     {
-        EventService.Instance.GamePaused += PauseGame;
-        EventService.Instance.GameResumed += ResumeGame;
-    }
+        [SerializeField] private GameObject panel;
+        [SerializeField] private TextMeshProUGUI title, scoreTxt, highScore;
+        [SerializeField] private GameObject resumeBtn, playAgainBtn, restartBtn, menuBtn, nextLevelBtn;
 
-    private void PauseGame()
-    {
-        panel.SetActive(true);
-        title.text = "GAME PAUSED";
-        restartBtn.SetActive(true);
-        resumeBtn.SetActive(true);
-    }
+        private int _score;
+        private void OnEnable()
+        {
+            EventService.GamePaused += PauseGame;
+            EventService.GameResumed += ResumeGame;
+            EventService.GameOver += GameOver;
+            EventService.GameWon += GameWon;
+            EventService.UpdateScore += UpdateScore;
+        }
 
-    private void ResumeGame()
-    {
-        restartBtn.SetActive(false);
-        resumeBtn.SetActive(false);
-        panel.SetActive(false);
-    }
+        private void PauseGame()
+        {
+            SoundManager.Instance.Play(SoundTypes.ButtonClick);
+            panel.SetActive(true);
+            title.text = "GAME PAUSED";
+            restartBtn.SetActive(true);
+            resumeBtn.SetActive(true);
+        }
+
+        private void ResumeGame()
+        {
+            SoundManager.Instance.Play(SoundTypes.ButtonClick);
+            restartBtn.SetActive(false);
+            resumeBtn.SetActive(false);
+            panel.SetActive(false);
+        }
     
-    private void GameOver()
-    {
-        panel.SetActive(true);
-        title.text = "GAME OVER";
-        playAgainBtn.SetActive(true);
+        private void GameOver()
+        {
+            SoundManager.Instance.Play(SoundTypes.GameLose);
+            GameLogManager.CustomLog("Game Over!");
+            panel.SetActive(true);
+            title.text = "GAME OVER";
+            playAgainBtn.SetActive(true);
+        }
+    
+        private void GameWon()
+        {
+            SoundManager.Instance.Play(SoundTypes.GameWon);
+            panel.SetActive(true);
+            title.text = "YOU WON";
+            nextLevelBtn.SetActive(true);
+        }
+
+        private void UpdateScore(int val)
+        {
+            _score += val;
+            scoreTxt.text = "SCORE: " + _score;
+        }
+        private void OnDisable()
+        {
+            EventService.GamePaused -= PauseGame;
+            EventService.GameResumed -= ResumeGame;
+            EventService.GameOver -= GameOver;
+            EventService.GameWon -= GameWon;
+            EventService.UpdateScore -= UpdateScore;
+        }
     }
 }

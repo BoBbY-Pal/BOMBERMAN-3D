@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 15
   height: 10
-  numberOfEnemies: 3
+  numberOfEnemies: 1
   cellPrefab: {fileID: 8779492108697487839, guid: 55ceed449e9560f4b98a880415828d55, type: 3}
   wallPrefab: {fileID: 7601521940616232, guid: ca559bfc60fb3b24899713502ac927ae, type: 3}
   playerPrefab: {fileID: 4611010635108294575, guid: 3262114797525534d9adaf0e4318e7a4, type: 3}

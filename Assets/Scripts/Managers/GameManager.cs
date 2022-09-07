@@ -1,5 +1,6 @@
-﻿using System;
+﻿using Enums;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utilities;
 
 namespace Managers
@@ -27,17 +28,27 @@ namespace Managers
         {
             b_GamePaused = true;
             Time.timeScale = 0;
-            EventService.Instance.GamePaused?.Invoke();
+            EventService.GamePaused?.Invoke();
         }
-        private void ResumeGame()
+        public void ResumeGame()
         {
             b_GamePaused = false;
             Time.timeScale = 1;
-            EventService.Instance.GameResumed?.Invoke();
+            EventService.GameResumed?.Invoke();
         }
-        public void GameOver()
+
+        public void Restart()
         {
-            GameLogManager.CustomLog("Game Over!");
+            SoundManager.Instance.Play(SoundTypes.ButtonClick);
+            Time.timeScale = 1;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        public void GoToMenu()
+        {
+            SoundManager.Instance.Play(SoundTypes.ButtonClick);
+            Time.timeScale = 1;
+            SceneManager.LoadScene((int)Scenes.MainMenu);
         }
     }
 }

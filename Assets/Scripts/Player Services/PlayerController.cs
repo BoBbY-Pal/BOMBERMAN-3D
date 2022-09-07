@@ -49,7 +49,7 @@ namespace Player
         
         public void DestroyObject()
         {
-            GameManager.Instance.GameOver();
+            EventService.GameOver?.Invoke();
             Destroy(gameObject);
         }
     }

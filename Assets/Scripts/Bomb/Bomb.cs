@@ -2,6 +2,7 @@
 using System.Collections;
 using Core;
 using Enums;
+using Managers;
 using Player;
 using UnityEngine;
 using Utilities;
@@ -60,11 +61,10 @@ namespace Bomb
             _bombMeshRenderer.enabled = false;
             _bombSphereCollider.enabled = false;
             _bombSphereCollider.isTrigger = true;
-            
+            SoundManager.Instance.Play(SoundTypes.Explosion);
 
-            Instantiate(explosionParticlePrefab, transform.position, Quaternion.identity);
-            GameLogManager.CustomLog("1st Particle spawned");
             Vector3 bombPosition = transform.position;
+            Instantiate(explosionParticlePrefab, bombPosition, Quaternion.identity);
 
             int noOfDirections = Enum.GetValues(typeof(Direction)).Length;
             for (int j = 1; j < noOfDirections; j++)
@@ -89,7 +89,8 @@ namespace Bomb
                         throw new ArgumentOutOfRangeException();
                 }
             }
-
+            
+            BombSpawner.Instance.b_CanSpawnBomb = true;
             canBeUsed = false;
         }
 

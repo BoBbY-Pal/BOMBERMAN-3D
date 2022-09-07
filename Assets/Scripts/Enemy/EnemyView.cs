@@ -82,6 +82,10 @@ namespace Enemy
         {
             EnemyService.Instance.enemies.Remove(enemyController);
             GameLogManager.CustomLog("Enemy died.");
+            
+            if(EnemyService.Instance.enemies.Count <= 0)
+                EventService.GameWon?.Invoke();
+            EventService.UpdateScore?.Invoke(50);
             Destroy(gameObject);
         }
     }

@@ -8,7 +8,7 @@ namespace Bomb
     {
         [SerializeField] private Bomb bombPrefab;
         private Bomb _bombObject;
-        private bool b_canSpawnBomb = true;
+        public bool b_CanSpawnBomb = true;
         
         private void Start()
         {
@@ -20,16 +20,16 @@ namespace Bomb
 
         public void SpawnBomb(Vector3 position)
         {
-            if (b_canSpawnBomb)
+            if (b_CanSpawnBomb)
             {
-                b_canSpawnBomb = false;
+                b_CanSpawnBomb = false;
                 
                 int x = Mathf.RoundToInt(position.x);
                 int z = Mathf.RoundToInt(position.z);
 
                 _bombObject.PlaceBomb(new Vector3(x, 0.5f, z));
                 StartCoroutine(_bombObject.Explode());
-                b_canSpawnBomb = true;
+               
             }
         }
     }

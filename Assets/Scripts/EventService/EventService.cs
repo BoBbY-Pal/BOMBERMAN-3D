@@ -1,14 +1,10 @@
 ﻿using System;
-using Utilities;
-
-
-    public class EventService : MonoGenericSingleton<EventService>
+public class EventService 
     {
-        public Action GamePaused;
-        public Action GameResumed;
-
-        private void Start()
-        {
-            
-        }
+        public static Action GamePaused;
+        public static Action GameResumed;
+        public static Action GameOver;
+        public static Action GameWon;
+        public static Action<int> UpdateScore;
+        
     }

@@ -6,6 +6,7 @@ namespace Walls
     {
         public void DestroyObject()
         {
+            EventService.UpdateScore?.Invoke(10);
             Destroy(gameObject);
         }
     }

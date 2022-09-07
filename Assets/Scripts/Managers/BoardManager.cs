@@ -1,4 +1,6 @@
 ﻿using Enemy;
+using Enums;
+using Managers;
 using ScriptableObjects;
 using UnityEngine;
 using Utilities;
@@ -38,7 +40,7 @@ namespace Core
         private void Start()
         {
             _cellGrid = new Walls.Wall[_width, _height];
-            
+            SoundManager.Instance.PlayMusic(SoundTypes.Music);
             SetupCellGrid();
             SetupWalls();
             SetupBoxes();
