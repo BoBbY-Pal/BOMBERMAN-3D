@@ -1,4 +1,6 @@
+using System;
 using Bomb;
+using Enemy;
 using Interfaces;
 using Managers;
 using UnityEngine;
@@ -14,9 +16,10 @@ namespace Player
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
-
+        
         private void Update()
         {
+            EnemyService.Instance.playerTransform = transform;
             MovePlayer();
 
             if (Input.GetKeyDown(KeyCode.Space))

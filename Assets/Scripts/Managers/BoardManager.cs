@@ -2,6 +2,7 @@
 using ScriptableObjects;
 using UnityEngine;
 using Utilities;
+using Walls;
 
 namespace Core
 {
@@ -18,9 +19,9 @@ namespace Core
         private GameObject _cellPrefab, _wallPrefab, _playerPrefab;
 
         [Tooltip("Boxes that will be placed on the cells grid.")]
-        private Walls.Wall[] _boxes;
+        private Wall[] _boxes;
 
-        public Walls.Wall[,] _cellGrid;
+        public Wall[,] _cellGrid;
 
         protected override void Awake()
         {
@@ -41,7 +42,7 @@ namespace Core
             SetupCellGrid();
             SetupWalls();
             SetupBoxes();
-            // IsCellEmpty();
+            GetGridItem();
             SpawnPlayer();
             SpawnEnemies();
         }
@@ -103,19 +104,9 @@ namespace Core
             }
         }
         
-        private void IsCellEmpty()
+        private void GetGridItem()
         {
             
-            for (int x = 1; x < _width; x++)
-            {
-                for (int z = 1; z < _height; z++)
-                {
-                    if (_cellGrid[x, z] != null)
-                    {
-                        GameLogManager.CustomLog("Found something!");
-                    }
-                }
-            }
         }
 
         private void SpawnPlayer()
@@ -138,6 +129,11 @@ namespace Core
                 EnemyService.Instance.CreateEnemy(new Vector3(randX, 1, randZ));
                 GameLogManager.CustomLog("Enemy spawned.");
             }
+        }
+
+        public bool IsGridOutOfBound(int x, int z)
+        {
+            return x < 0 || x > _width - 1 || z < 0 || z > _height - 1;
         }
     }
 }

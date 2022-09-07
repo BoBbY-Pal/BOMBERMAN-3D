@@ -1,48 +1,40 @@
 ﻿using System;
-using Enums;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utilities;
 
 namespace Managers
 {
     public class GameManager : MonoGenericSingleton<GameManager>
     {
-        private GameObject _controlsPanel;
+        private bool b_GamePaused;
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                PauseGame();
+                if (b_GamePaused)
+                {
+                    ResumeGame();
+                }
+                else
+                {
+                    PauseGame();
+                }
             }
         }
 
         private void PauseGame()
         {
-            throw new NotImplementedException();
+            b_GamePaused = true;
+            Time.timeScale = 0;
+            EventService.Instance.GamePaused?.Invoke();
         }
-
-        public void StartGame()
+        private void ResumeGame()
         {
-            SceneManager.LoadScene((int) Scenes.GameScene);
+            b_GamePaused = false;
+            Time.timeScale = 1;
+            EventService.Instance.GameResumed?.Invoke();
         }
-
-        public void ShowControls()
-        {
-            _controlsPanel.SetActive(true);
-        }
-
-        public void Back()
-        {
-            _controlsPanel.SetActive(false);
-        }
-        
-        public void QuitGame()
-        {
-            Application.Quit();
-        }
-
         public void GameOver()
         {
             GameLogManager.CustomLog("Game Over!");

@@ -20,8 +20,7 @@ namespace Bomb
         
         private MeshRenderer _bombMeshRenderer;
         private SphereCollider _bombSphereCollider;
-        [SerializeField] private ParticleSystem explosionParticle;
-        
+
         [SerializeField] private ParticleSystem explosionParticlePrefab;
         
         [SerializeField] private bool canBeUsed;
@@ -34,8 +33,6 @@ namespace Bomb
             _bombMeshRenderer = gameObject.GetComponent<MeshRenderer>();
             _bombSphereCollider = gameObject.GetComponent<SphereCollider>();
 
-            // explosionParticle.gameObject.SetActive(false);
-            
             // Disabling specific components is much efficient than disabling whole GameObject...
             _bombMeshRenderer.enabled = false;
             _bombSphereCollider.enabled = false;
@@ -57,20 +54,20 @@ namespace Bomb
             {
                 yield break;
             }
-            
             yield return new WaitForSeconds(explosionTime);
+            
             // Disabling the mesh and collider instead of destroying the GameObject so that we can reuse the same object..
             _bombMeshRenderer.enabled = false;
             _bombSphereCollider.enabled = false;
             _bombSphereCollider.isTrigger = true;
-            // explosionParticle.gameObject.SetActive(true);
+            
 
             Instantiate(explosionParticlePrefab, transform.position, Quaternion.identity);
             GameLogManager.CustomLog("1st Particle spawned");
             Vector3 bombPosition = transform.position;
 
             int noOfDirections = Enum.GetValues(typeof(Direction)).Length;
-            for (int j = 0; j < noOfDirections; j++)
+            for (int j = 1; j < noOfDirections; j++)
             {
                 Direction direction = (Direction) j;
 
@@ -103,6 +100,8 @@ namespace Bomb
             for (int i = 1; i < explosionImpactArea; i++)
             {
                 var tempPos = bombPosition + (directionToCheck * i);
+                if (_boardManager.IsGridOutOfBound((int) tempPos.x, (int) tempPos.z)) 
+                    return;
                 
                 Wall wall = _boardManager._cellGrid[(int) tempPos.x, (int) tempPos.z];
                 

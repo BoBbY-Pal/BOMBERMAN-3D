@@ -10,7 +10,7 @@ namespace Bomb
         private Bomb _bombObject;
         private bool b_canSpawnBomb = true;
         
-        void Start()
+        private void Start()
         {
             // Spawning bomb at start of the game so we don't need to spawn bomb everytime
             // because instantiation is a expensive task that can lead to lag in the gameplay...
@@ -26,19 +26,11 @@ namespace Bomb
                 
                 int x = Mathf.RoundToInt(position.x);
                 int z = Mathf.RoundToInt(position.z);
-              
-                
+
                 _bombObject.PlaceBomb(new Vector3(x, 0.5f, z));
-                Explode();     
+                StartCoroutine(_bombObject.Explode());
+                b_canSpawnBomb = true;
             }
-        }
-
-        private void Explode()
-        {
-            StartCoroutine(_bombObject.Explode());
-            GameLogManager.CustomLog("Bomb Exploded");
-
-            b_canSpawnBomb = true;
         }
     }
 }

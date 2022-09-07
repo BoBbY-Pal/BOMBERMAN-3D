@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6964322221174953303}
   - component: {fileID: 7722650119759608148}
   - component: {fileID: 1310843377024909573}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,9 +113,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionTime: 3
   explosionImpactArea: 3
-  _bombMeshRenderer: {fileID: 6964322221174953303}
-  _bombSphereCollider: {fileID: 7722650119759608148}
-  explosionParticle: {fileID: 4427026246353273895}
   explosionParticlePrefab: {fileID: 6080489361867725135, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}
   canBeUsed: 0
 --- !u!1001 &7569926664472042856
@@ -179,11 +176,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}
---- !u!198 &4427026246353273895 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6080489361867725135, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}
-  m_PrefabInstance: {fileID: 7569926664472042856}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5661908078248213571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2854977975269138731, guid: e85ff5b6341b4b84cb35efff7e0fafe6, type: 3}

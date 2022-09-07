@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Enums;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -76,13 +75,6 @@ namespace Enemy.EnemyAI
             }
         }
 
-        private IEnumerator TimerRoutine(float secs)
-        {
-            enemyModel.b_CanChangeDirection = false;
-            yield return new WaitForSeconds(secs);
-            enemyModel.b_CanChangeDirection = true;
-        }
-        
         private void SearchWalkPoint()
         {
             int lengthOfEnum = Enum.GetValues(typeof(Direction)).Length;

@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Enemy
   m_EditorClassIdentifier: 
   movementSpeed: 3
-  walkPointRangeOnX: 15
-  WalkPointRangeOnZ: 10
-  patrolTime: 10
+  patrolTime: 5
