@@ -2,7 +2,6 @@ using System;
 using Bomb;
 using Enemy;
 using Interfaces;
-using Managers;
 using UnityEngine;
 
 namespace Player

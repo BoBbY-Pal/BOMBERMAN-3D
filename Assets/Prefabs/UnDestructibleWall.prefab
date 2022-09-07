@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1213881246229987470}
   - component: {fileID: 1734230458302128508}
   m_Layer: 6
-  m_Name: UnDestructibleBox
+  m_Name: UnDestructibleWall
   m_TagString: UnDestructibleBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

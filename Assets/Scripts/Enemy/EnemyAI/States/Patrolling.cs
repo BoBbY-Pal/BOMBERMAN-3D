@@ -1,7 +1,6 @@
-﻿using System;
-using Enums;
+﻿using Enums;
 using UnityEngine;
-using Random = UnityEngine.Random;
+
 
 namespace Enemy.EnemyAI
 {
@@ -52,54 +51,28 @@ namespace Enemy.EnemyAI
 
         private void Patrol()
         {
-            Vector3 currentPosition = enemyView.GetPosition();
+            Vector3 currentPosition = enemyView.transform.position;
             bool isThereObstacle = Physics.Raycast(currentPosition, enemyModel.CurrentDirection, 1,
                 _enemyService.obstaclesLayerMask);
             
             Color rayColor = isThereObstacle ? Color.cyan : Color.red;
             Debug.DrawRay(currentPosition, enemyModel.CurrentDirection * 1, rayColor, Time.deltaTime);
             
-            if (isThereObstacle)
+            switch (isThereObstacle)
             {
-                SearchWalkPoint();
-            }
-            if(!isThereObstacle)
-            {
-                enemyView.Move(enemyModel.CurrentDirection);
-
-                if (enemyModel.b_CanChangeDirection)
-                {
+                case true:
                     SearchWalkPoint();
+                    break;
+                case false:
+                {
                     enemyView.Move(enemyModel.CurrentDirection);
-                }
-            }
-        }
 
-        private void SearchWalkPoint()
-        {
-            int lengthOfEnum = Enum.GetValues(typeof(Direction)).Length;
-            Direction randomDirection = (Direction) Random.Range(0, lengthOfEnum);
+                    if (enemyModel.b_CanChangeDirection)
+                    {
+                        SearchWalkPoint();
+                        enemyView.Move(enemyModel.CurrentDirection);
+                    }
 
-            switch (randomDirection)
-            {
-                case Direction.Forward:
-                {
-                    enemyModel.CurrentDirection = Vector3.forward;
-                    break;
-                }
-                case Direction.Backward:
-                {
-                    enemyModel.CurrentDirection = Vector3.back;
-                    break;
-                }
-                case Direction.Left:
-                {
-                    enemyModel.CurrentDirection = Vector3.left;
-                    break;
-                }
-                case Direction.Right:
-                {
-                    enemyModel.CurrentDirection = Vector3.right;
                     break;
                 }
             }

@@ -1,12 +1,11 @@
 ﻿using Enemy;
 using Enums;
-using Managers;
 using ScriptableObjects;
 using UnityEngine;
 using Utilities;
 using Walls;
 
-namespace Core
+namespace Managers
 {
     // Creating whole board in the runTime so if in future there's a need of even 50*50 grid
     // we just need to pass in width and height into a board scriptable object and there we go...
@@ -18,12 +17,12 @@ namespace Core
         private int _width, _height;
         private int _enemiesToSpawn;
 
-        private GameObject _cellPrefab, _wallPrefab, _playerPrefab;
+        private GameObject _cellPrefab, _destructibleBox , _wallPrefab, _playerPrefab;
 
         [Tooltip("Boxes that will be placed on the cells grid.")]
         private Wall[] _boxes;
 
-        public Wall[,] _cellGrid;
+        public Wall[,] cellGrid;
 
         protected override void Awake()
         {
@@ -34,17 +33,17 @@ namespace Core
             _wallPrefab = boardSo.wallPrefab;
             _playerPrefab = boardSo.playerPrefab;
             _enemiesToSpawn = boardSo.numberOfEnemies;
+            _destructibleBox = boardSo.destructibleWall;
             _boxes = boardSo.boxes;
         }
 
         private void Start()
         {
-            _cellGrid = new Walls.Wall[_width, _height];
+            cellGrid = new Wall[_width, _height];
             SoundManager.Instance.PlayMusic(SoundTypes.Music);
             SetupCellGrid();
-            SetupWalls();
+            SetupObstacles();
             SetupBoxes();
-            GetGridItem();
             SpawnPlayer();
             SpawnEnemies();
         }
@@ -62,7 +61,7 @@ namespace Core
             }
         }
         
-        private void SetupWalls()
+        private void SetupObstacles()
         {
             // Top Down Walls
             for (int x = 0; x < _width; x++) 
@@ -96,19 +95,19 @@ namespace Core
                 for (int z = 1; z < _height; z++)
                 {
                     int boxToSpawn = Random.Range(0, _boxes.Length); // Get a random box from the array of boxes.
-                    Walls.Wall box = Instantiate(_boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
-                    _cellGrid[x, z] = box;
+                    Wall box = Instantiate(_boxes[boxToSpawn], new Vector3(x, 0.5f, z), Quaternion.identity);
+                    cellGrid[x, z] = box;
                     box.transform.SetParent(gameObject.transform);
                     box.name = $"Box ({x},{z})";
+
+                    // if (_cellGrid[-x, z] == null)
+                    // {
+                    //     Instantiate(_destructibleBox, new Vector3(x, 0.5f, z), Quaternion.identity);
+                    // }
                     z++;
                 }
                 x++;
             }
-        }
-        
-        private void GetGridItem()
-        {
-            
         }
 
         private void SpawnPlayer()
@@ -123,7 +122,7 @@ namespace Core
                 int randX = Random.Range(0, _width - 1);
                 int randZ = Random.Range(0, _height - 1);
 
-                while (_cellGrid[randX, randZ] != null)
+                while (cellGrid[randX, randZ] != null)
                 {
                     randX = Random.Range(0, _width - 1);
                     randZ = Random.Range(0, _height - 1);

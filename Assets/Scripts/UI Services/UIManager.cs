@@ -9,7 +9,7 @@ namespace UI_Services
     public class UIManager : MonoGenericSingleton<UIManager>
     {
         [SerializeField] private GameObject panel;
-        [SerializeField] private TextMeshProUGUI title, scoreTxt, highScore;
+        [SerializeField] private TextMeshProUGUI title, scoreTxt;
         [SerializeField] private GameObject resumeBtn, playAgainBtn, restartBtn, menuBtn, nextLevelBtn;
 
         private int _score;

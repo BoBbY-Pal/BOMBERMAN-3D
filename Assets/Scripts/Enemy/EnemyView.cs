@@ -59,11 +59,6 @@ namespace Enemy
             this.enemyController = enemyController;
         }
 
-        public Vector3 GetPosition()
-        {
-            return transform.position;
-        }
-
         public void Move(Vector3 direction)
         {
             _rigidbody.velocity = direction * enemyController.GetModel().MovementSpeed;

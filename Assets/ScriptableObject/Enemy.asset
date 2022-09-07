@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Enemy
   m_EditorClassIdentifier: 
   movementSpeed: 3
-  patrolTime: 5
+  patrolTime: 3

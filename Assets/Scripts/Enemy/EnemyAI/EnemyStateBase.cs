@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using Enums;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Enemy.EnemyAI
 {
@@ -42,6 +45,36 @@ namespace Enemy.EnemyAI
             // else enter new state to current & enable it.
             enemyView.currentEnemyState = newEnemyState;
             enemyView.currentEnemyState.OnStateEnter();
+        }
+        
+        public void SearchWalkPoint()
+        {
+            int lengthOfEnum = Enum.GetValues(typeof(Direction)).Length;
+            Direction randomDirection = (Direction) Random.Range(0, lengthOfEnum);
+
+            switch (randomDirection)
+            {
+                case Direction.Forward:
+                {
+                    enemyModel.CurrentDirection = Vector3.forward;
+                    break;
+                }
+                case Direction.Backward:
+                {
+                    enemyModel.CurrentDirection = Vector3.back;
+                    break;
+                }
+                case Direction.Left:
+                {
+                    enemyModel.CurrentDirection = Vector3.left;
+                    break;
+                }
+                case Direction.Right:
+                {
+                    enemyModel.CurrentDirection = Vector3.right;
+                    break;
+                }
+            }
         }
     }
 }

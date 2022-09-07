@@ -18,5 +18,7 @@ namespace ScriptableObjects
         
         [Tooltip("Boxes that will be placed on the cells grid that can be Destructible/NonDestructible.")]
         public Walls.Wall[] boxes;
+        public GameObject destructibleWall;
+        
     }
 }

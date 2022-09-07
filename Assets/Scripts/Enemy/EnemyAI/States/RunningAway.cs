@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using Enums;
+﻿using Enums;
 using UnityEngine;
-using Random = UnityEngine.Random;
+
 
 namespace Enemy.EnemyAI
 {
@@ -29,7 +27,7 @@ namespace Enemy.EnemyAI
             }
             else
             {
-                StartCoroutine(RunAway());
+                RunAway();
             }
 
             _enemyMoveTimer = Time.deltaTime;
@@ -44,13 +42,14 @@ namespace Enemy.EnemyAI
             }
         }
 
-        private IEnumerator RunAway()
+        private void RunAway()
         {
-            Vector3 currentPosition = enemyView.GetPosition();
-            Vector3 distance = (currentPosition - EnemyService.Instance.playerTransform.position).normalized;
-            Direction playerDirection = GetDirection(currentPosition, _enemyService.playerTransform.position);
-            
-            
+            Vector3 currentPosition = enemyView.transform.position;
+            if (_enemyService.playerTransform != null)
+            {
+                Vector3 distance = (currentPosition - _enemyService.playerTransform.position).normalized;
+            }
+
             bool isThereObstacle = Physics.Raycast(currentPosition, enemyModel.CurrentDirection, 1,
                 _enemyService.obstaclesLayerMask);
             
@@ -67,14 +66,11 @@ namespace Enemy.EnemyAI
 
                 if (enemyModel.b_CanChangeDirection)
                 {
-                    // SearchWalkPoint();
-                    // enemyView.Move(enemyModel.CurrentDirection);
+                    currentPosition = enemyView.transform.position;
+                    Direction playerDirection = GetDirection(currentPosition, _enemyService.playerTransform.position);
                     MoveOppositeDirection(playerDirection);
                 }
             }
-            
-            yield return new WaitForSeconds(2f);
-            
         }
         
         private Direction GetDirection (Vector3 pointOfOrigin, Vector3 vectorToTest) 
@@ -117,40 +113,7 @@ namespace Enemy.EnemyAI
          
         }
         
-        private void SearchWalkPoint()
-        {
-            int lengthOfEnum = Enum.GetValues(typeof(Direction)).Length;
-            Direction randomDirection = (Direction) Random.Range(0, lengthOfEnum);
-            
-            // while (randomDirection == directionToAvoid)
-            // {
-            //    randomDirection = (Direction) Random.Range(0, lengthOfEnum);
-            // }
-
-            switch (randomDirection)
-            {
-                case Direction.Forward:
-                {
-                    enemyModel.CurrentDirection = Vector3.forward;
-                    break;
-                }
-                case Direction.Backward:
-                {
-                    enemyModel.CurrentDirection = Vector3.back;
-                    break;
-                }
-                case Direction.Left:
-                {
-                    enemyModel.CurrentDirection = Vector3.left;
-                    break;
-                }
-                case Direction.Right:
-                {
-                    enemyModel.CurrentDirection = Vector3.right;
-                    break;
-                }
-            }
-        }
+        
 
         private void MoveOppositeDirection(Direction direction)
         {

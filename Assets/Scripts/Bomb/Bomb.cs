@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Core;
 using Enums;
 using Managers;
 using Player;
 using UnityEngine;
-using Utilities;
 using Walls;
 
 namespace Bomb
@@ -104,7 +102,7 @@ namespace Bomb
                 if (_boardManager.IsGridOutOfBound((int) tempPos.x, (int) tempPos.z)) 
                     return;
                 
-                Wall wall = _boardManager._cellGrid[(int) tempPos.x, (int) tempPos.z];
+                Wall wall = _boardManager.cellGrid[(int) tempPos.x, (int) tempPos.z];
                 
                 if (wall != null)
                 {
@@ -115,7 +113,7 @@ namespace Bomb
                         Instantiate(explosionParticlePrefab, new Vector3(tempPos.x, tempPos.y,
                             tempPos.z), Quaternion.identity);
                         
-                        _boardManager._cellGrid[(int) tempPos.x, (int) tempPos.z] = null;
+                        _boardManager.cellGrid[(int) tempPos.x, (int) tempPos.z] = null;
                     }
                     else
                     {
