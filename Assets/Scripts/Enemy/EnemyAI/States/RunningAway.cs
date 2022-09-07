@@ -52,9 +52,9 @@ namespace Enemy.EnemyAI
 
             bool isThereObstacle = Physics.Raycast(currentPosition, enemyModel.CurrentDirection, 1,
                 _enemyService.obstaclesLayerMask);
-            
-            Color rayColor = isThereObstacle ? Color.cyan : Color.red;
-            Debug.DrawRay(currentPosition, enemyModel.CurrentDirection * 1, rayColor, Time.deltaTime);
+            // Just for debugging ray..
+            // Color rayColor = isThereObstacle ? Color.cyan : Color.red;
+            // Debug.DrawRay(currentPosition, enemyModel.CurrentDirection * 1, rayColor, Time.deltaTime);
             
             if (isThereObstacle)
             {

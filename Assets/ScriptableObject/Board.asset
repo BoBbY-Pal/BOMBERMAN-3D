@@ -21,3 +21,4 @@ MonoBehaviour:
   boxes:
   - {fileID: -3739036637251979041, guid: e6a545a67c10dee48b32c50377431c5f, type: 3}
   - {fileID: 1734230458302128508, guid: 77c92cb81390c8c4781445f0f685e73e, type: 3}
+  destructibleWall: {fileID: -3739036637251979041, guid: e6a545a67c10dee48b32c50377431c5f, type: 3}

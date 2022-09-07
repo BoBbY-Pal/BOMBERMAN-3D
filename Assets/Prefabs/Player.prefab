@@ -128,4 +128,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a45742ef6d3ae459ae3760ac102800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMoveSpeed: 1000
+  playerMoveSpeed: 500
